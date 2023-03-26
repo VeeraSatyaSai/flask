@@ -26,8 +26,12 @@ def index(filename="file1"):
           end=len(lines)
        else:
           end=int(end)
-       if start > end:
-         return "Invalid Query Parameters"
+       if start > end or start ==end:
+         return render_template('differenterror.html',error="Invalid Query Parameters")
+       elif end > len(lines):
+          return render_template('differenterror.html',error="length of file exceeded")
+       elif start<0 or end <0:
+          return render_template('differenterror.html',error="Invalid Query Parameters")         
         
      return render_template('index.html',filename=lines[start:end])
 
@@ -46,15 +50,19 @@ def index(filename="file1"):
           end=len(lines)
        else:
           end=int(end)
-       if start > end:
-         return "Invalid Query Parameters"
+       if start > end or start==end :
+         return render_template('differenterror.html',error="Invalid Query Parameters")
+       elif end > len(lines):
+          return render_template('differenterror.html',error="length of file exceeded")
+       elif start<0 or end <0:
+         return render_template('differenterror.html',error="Invalid Query Parameters")
  
     return render_template('index.html',filename=lines[start:end])
    else:
-    return "File doesn't exist"
+    return  render_template('differenterror.html',error="File doesn't exist")
  except Exception as e:
     
-    return "Invalid Query Parameters"
+    return render_template('differenterror.html',error="Invalid Query Parameters")
  
  
  
@@ -62,9 +70,7 @@ def index(filename="file1"):
 @app.errorhandler(404)
 def someError(e):
     return render_template('error.html')
-@app.errorhandler(500)
-def error(e):
-    return "file name entered doesn't exist"
+
 
 
       
